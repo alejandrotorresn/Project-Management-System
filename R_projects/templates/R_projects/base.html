@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% load static %}
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0" />
+    <title>SC3 - Project Management System</title>
+
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="{% static 'R_projects/css/style.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+
+    <link href="{% static 'R_projects/css/materialize.css' %}" type="text/css" rel="stylesheet" media="screen,projection" />
+
+
+    <link rel="apple-touch-icon" sizes="144x144" href="{% static 'R_projects/images/icon/apple-touch-icon.png' %}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'R_projects/images/icon/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'R_projects/images/icon/favicon-16x16.png' %}">
+    <link rel="manifest" href="{% static 'R_projects/images/icon/site.webmanifest' %}">
+    <link rel="mask-icon" href="{% static 'R_projects/images/icon/safari-pinned-tab.svg' %}" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'R_projects/js/materialize.js' %}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            $(".dropdown-trigger").dropdown();
+        });
+    </script>
+
+
+</head>
+
+<body>
+
+    <nav class="light-green darken-1" role="navigation">
+        <div class="nav-wrapper container">
+            <div class="row">
+                <div class="col s2 m1 l1">
+                    <a id="logo-container" href="https://www.sc3.uis.edu.co" class="brand-logo left"><img src="{% static 'R_projects/images/sc3_1.png' %}" class="responsive-img" width="40%"></a>
+                </div>
+                <div class="col s10 m6 l6"><a>Super Computación y Cálculo Científico</a></div>
+                <div class="">
+                    <!-- Dropdown Structure -->
+                    <ul id="dropdown1" class="dropdown-content">
+                        <li><a href="/R_projects/project_lists">Project list</a></li>
+                        <li><a href="#!">Research groups</a></li>
+                        <li class="divider"></li>
+                        <li><a href="#!">...</a></li>
+                    </ul>
+                    <ul class="right hide-on-med-and-down">
+                        <li><a href="{% url 'R_projects:index' %}">Home</a></li>
+                        <li><a class="dropdown-trigger" href="#!" data-target="dropdown1">Reports<i class="material-icons right">arrow_drop_down</i></a></li>
+                        <li><a href="/admin">Login</a></li>
+                    </ul>
+
+                    <ul id="nav-mobile" class="sidenav">
+                        <li><a href="{% url 'R_projects:index' %}">Home</a></li>
+                        <li><a href="{% url 'R_projects:index' %}">Reports</a></li>
+                        <li><a href="#">Login</a></li>
+                    </ul>
+                    <a href="#" data-target="nav-mobile" class="sidenav-trigger right"><i class="material-icons">menu</i></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block content %} {% endblock %}
+
+    <footer class="page-footer light-green">
+        <div class="container">
+            <div class="row">
+                <div class="col l12 s12">
+                    <img src="{% static 'R_projects/images/uis.png' %}" class="responsive-img right" width="15%"> Bucaramanga - Colombia. Cra 27 calle 9<br> Teléfono: 6344000 Ext: 1251 - 3515<br> Email: sc3@uis.edu.co
+                </div>
+            </div>
+        </div>
+        <div class="footer-copyright">
+            <div class="container">
+                <a class="green-text text-lighten-3" href="https://www.sc3.uis.edu.co">Supercomputación y Cálculo Científico - 2020</a>
+            </div>
+        </div>
+    </footer>
+    <!--  Scripts-->
+    <script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <script src="{% static 'R_projects/js/materialize.js' %}"></script>
+    <script src="{% static 'R_projects/js/init.js' %}"></script>
+
+</body>
+
+</html>

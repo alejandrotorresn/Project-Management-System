@@ -1,0 +1,64 @@
+{% extends 'R_projects/base.html' %} {% block content %}
+<script>
+    $(document).ready(function() {
+        $('select').formSelect();
+    });
+</script>
+
+<div class="section no-pad-bot white" id="index-banner">
+    <div class="container">
+        <h5 class="header center green-text">PROJECT MANAGEMENT SYSTEM</h5>
+        <hr style="border-color:yellowgreen;">
+        <br>
+    </div>
+</div>
+
+
+
+<div class="container">
+    <div class="section">
+        {% if warning %}
+
+        <div class="row ">
+            <div>
+                <div class="card-panel red">
+
+                    <span class="white-text">{{warning}}</span>
+                    <i class="material-icons secondary-content white-text">warning</i>
+                </div>
+            </div>
+        </div>
+
+        {% endif %}
+    </div>
+    <div class="section">
+        <div class="container">
+            <div class="row">
+                <div class="col s12 ">
+                    <div class="card">
+                        <div class="card-content black-text">
+                            <h6 class="card-title green-text"><b>Add an existing user to a project</b></h6>
+                            <hr style="border-color:lightgreen;">
+                            <br>
+                            <form method="POST" class="foundation">
+                                {% csrf_token %}
+                                <p>{{ form_user_project.as_p }}</p>
+                                <div class="row">
+                                    <div class="input-field col s1 m1 l3 push-s7 push-m9 push-l9">
+                                        <button class="btn waves-effect green lighten-1" type="submit" name="action">Register<i class="material-icons right">send</i></button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <hr style="border-color:yellowgreen;">
+    </div>
+
+</div>
+
+
+{% endblock %}

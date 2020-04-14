@@ -1,0 +1,43 @@
+{% extends 'R_projects/base.html' %} {% block content %}
+<div class="section no-pad-bot white" id="index-banner">
+    <div class="container">
+        <h5 class="header center green-text">PROJECT MANAGEMENT SYSTEM</h5>
+        <hr style="border-color:yellowgreen;">
+        <h6 class="header center green-text">Registration information</h6>
+        <br>
+    </div>
+</div>
+
+<div class="container">
+
+    <div class="row">
+        <div>
+            <div class="card-panel blue">
+                <span class="white-text">User added successfully</span>
+            </div>
+        </div>
+    </div>
+
+
+    <ul class="collection">
+        <li class="collection-item avatar">
+            <br>
+            <i class="material-icons circle light-green">functions</i>
+            <span class="title"><b>Researcher: </b>{{ new_pu.user.first_name }} {{ new_pu.user.first_last_name }}</span>
+            <hr style="border-color:yellowgreen;">
+            <br>
+            <p><b>project: </b> {{ new_pu.project.project_name }}</p>
+            <i class="material-icons secondary-content light-green-text">warning</i>
+            <br>
+            <br>
+            <br><br>
+            <br>
+            <br>
+            <hr style="border-color:yellowgreen;">
+            <br>
+        </li>
+    </ul>
+
+</div>
+
+{% endblock %}

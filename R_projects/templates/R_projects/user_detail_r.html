@@ -1,0 +1,58 @@
+{% extends 'R_projects/base.html' %} {% block content %}
+
+
+<div class="section no-pad-bot white" id="index-banner">
+    <div class="container">
+        <h5 class="header center green-text">PROJECT MANAGEMENT SYSTEM</h5>
+        <hr style="border-color:yellowgreen;">
+        <h6 class="header center green-text">Registration information</h6>
+        <br>
+    </div>
+</div>
+
+
+<div class="container">
+    {% if user.active == False %}
+    <div class="row">
+        <div>
+            <div class="card-panel red">
+                <span class="white-text">Account requests are reviewed by HPC management and processed within two business weeks. Within this period you will be notified by email about the activation of your account, your username and provisional password.
+            </span>
+            </div>
+            <div class="card-panel black">
+                <span class="white-text">If your account is already created, it may be disabled. Please contact us to <a>sc3@uis.edu.co</a></span>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <br>
+    <br>
+    <br> {% endif %}
+
+    <ul class="collection">
+        <li class="collection-item avatar">
+            <br>
+            <i class="material-icons circle light-green">functions</i>
+            <span class="title"><b>Researcher: </b>{{ user.first_name }} {{ user.first_last_name }}</span>
+            <hr style="border-color:yellowgreen;">
+            <br>
+            <p><b>Email: </b> {{ user.email }}</p>
+            <p><b>Intitution: </b> {{ user.r_group.institution }}</p>
+            <p><b>Research group: </b> {{ user.r_group }}</p>
+            <p><b>Registration date: </b> {{ user.start_date }}</p>
+            <i class="material-icons secondary-content light-green-text">warning</i>
+            <br>
+            <br>
+            <br><br>
+            <br>
+            <br>
+            <hr style="border-color:yellowgreen;">
+            <br>
+        </li>
+    </ul>
+
+</div>
+{% if user.active == True %}
+<br>
+<br>
+<br> {% endif %}{% endblock %}
