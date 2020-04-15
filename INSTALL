@@ -1,0 +1,174 @@
+Ubuntu Server 18
+
+Install required packages
+    sudo apt update
+    sudo apt install python3-pip python3-dev libpq-dev postgresql-contrib nginx curl
+
+PostgreSQL
+    sudo apt install postgresql postgresql-contrib
+    sudo -i -u postgres
+    psql
+    
+    CREATE DATABASE database;
+    CREATE USER user WITH PASSWORD 'PASSWORD';
+    ALTER ROLE user SET client_encoding TO 'utf8';
+    ALTER ROLE user SET default_transaction_isolation TO 'read committed';
+    ALTER ROLE user SET timezone TO 'UTC';
+    GRANT ALL PRIVILEGES ON DATABASE database TO user;
+    \q
+    
+    exit
+
+Creating a Python Virtual Environment 
+    sudo -H pip3 install --upgrade pip
+    sudo -H pip3 install virtualenv
+    mkdir pms
+    cd pms
+    virtualenv pms
+    source pms/bin/activate
+
+Clone Project
+    git clone https://github.com/alejandrotorresn/Project-Management-System.git
+    mv Project-Management-System/* .
+    
+Install requirements
+    pip install -r requirements.txt
+
+Configure the project settings
+    vi sc3/settings.py
+
+        # SECURITY WARNING: keep the secret key used in production secret!
+        # SECRET_KEY = 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag'
+        import os
+        SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
+
+        # SECURITY WARNING: don't run with debug turned on in production!
+        # DEBUG = True
+        DEBUG = bool( os.environ.get('DJANGO_DEBUG', True) )
+
+        ALLOWED_HOSTS = ['*']
+
+        DATABASES = {
+            'default': {
+                 'ENGINE': 'django.db.backends.postgresql_psycopg2',
+                 'NAME': 'database',
+                 'USER': 'user',
+                 'PASSWORD': 'PASSWORD',
+                 'HOST': '127.0.0.1',
+                 'PORT': '',
+            }
+        }
+
+        STATIC_ROOT = os.path.join(BASE_DIR, 'static/')
+
+        # Email
+        EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+        EMAIL_HOST = 'smtp.office365.com'
+        EMAIL_PORT = '587'
+        EMAIL_HOST_USER = 'user@email.com'
+        EMAIL_HOST_PASSWORD = 'email_password'
+        EMAIL_USE_TLS = True
+        EMAIL_USE_SSL = False
+
+
+Completing the Initial Project Setup
+    python manage.py makemigrations
+    python manage.py migrate
+    python manage.py createsuperuser
+    python manage.py collectstatic
+
+    deactivate
+
+
+Creating Socket and Service Files for Gunicorn
+    sudo nano /etc/systemd/system/gunicorn.socket
+
+        [Unit]
+        Description=gunicorn socket
+
+        [Socket]
+        ListenStream=/run/gunicorn.sock
+
+        [Install]
+        WantedBy=sockets.target
+
+    sudo nano /etc/systemd/system/gunicorn.service
+
+        [Unit]
+        Description=gunicorn daemon
+        Requires=gunicorn.socket
+        After=network.target
+
+        [Service]
+        User=username
+        Group=username
+        WorkingDirectory=/home/username/pms
+        ExecStart=/home/username/pms/pms/bin/gunicorn \
+             --access-logfile - \
+             --workers 3 \
+             --bind unix:/run/gunicorn.sock \
+             sc3.wsgi:application
+
+        [Install]
+        WantedBy=multi-user.target
+        
+
+    sudo systemctl start gunicorn.socket
+    sudo systemctl enable gunicorn.socket
+    sudo systemctl status gunicorn.socket
+
+    file /run/gunicorn.sock
+
+    sudo systemctl status gunicorn
+
+    curl --unix-socket /run/gunicorn.sock localhost
+
+    sudo systemctl status gunicorn
+
+NGINX Proxy Pass to Gunicorn and setup HTTPS
+    sudo nano /etc/nginx/sites-available/project_management
+        
+        server {
+            listen 80;
+            listen [::]:80;
+
+            server_name yourdomainname.com www.yourdomainname.com;
+
+            location = /favicon.ico {
+                access_log off;
+                log_not_found off;
+            }
+
+            location /static/ {
+                root /home/username/pms;
+            }
+
+            location / {
+                include proxy_params;
+                proxy_pass http://unix:/run/gunicorn.sock;
+            }
+        }
+
+    sudo ln -s /etc/nginx/sites-available/project_management /etc/nginx/sites-enabled/project_management
+
+    sudo nginx -t
+
+    sudo service nginx restart
+
+
+    
+
+
+
+
+
+
+
+
+        
+
+        
+
+
+
+    

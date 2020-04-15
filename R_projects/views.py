@@ -15,7 +15,7 @@ from django.urls import reverse
 
 
 
-emails = ['alejandrotorresn@gmail.com']
+emails = ['email@mail.com']
 
 
 
